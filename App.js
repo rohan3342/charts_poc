@@ -15,7 +15,6 @@ const CustomLabel = props => {
   const width = props?.textStyle?.width;
   const x = props.x - width / 2;
   const y = props.y - width / 2;
-  console.log('\n', props.datum, '\n Positions => X: ', x, ' Y: ', y);
   return (
     <View
       style={{
@@ -67,7 +66,7 @@ class App extends Component {
     ];
     const colorScale = ['tomato', 'orange', 'gold', 'lightgreen', 'skyblue'];
     return (
-      <SafeAreaView pointerEvents="none" style={styles.container}>
+      <SafeAreaView style={styles.container}>
         {/* Donut Chart */}
         <View style={{backgroundColor: 'white', marginBottom: 20}}>
           <Svg viewBox="0 0 400 400" width={400} height={400}>
@@ -85,13 +84,14 @@ class App extends Component {
                 {
                   target: 'data',
                   eventHandlers: {
-                    onClick: () => {
+                    onPressIn: () => {
                       return [
                         {
                           target: 'data',
-                          mutation: dataProps => {
-                            console.log('item selected is', dataProps.index);
-                            return {};
+                          mutation: props => {
+                            return props.innerRadius === 100
+                              ? {innerRadius: 97, radius: 153}
+                              : {innerRadius: 100, radius: 150};
                           },
                         },
                       ];
@@ -106,82 +106,80 @@ class App extends Component {
         </View>
         {/* Bar Chart */}
         <View style={styles.BarChartView}>
-          <Svg viewBox="0 0 400 400" width={400} height={400}>
-            <VictoryChart
-              events={[
-                {
-                  target: 'data',
-                  eventHandlers: {
-                    onPressIn: () => alert,
-                  },
+          <VictoryChart
+            events={[
+              {
+                target: 'data',
+                eventHandlers: {
+                  onPressIn: () => alert,
                 },
-              ]}
-              containerComponent={
-                <VictoryZoomContainer
-                  oomDomain={{x: [1, 5], y: [0, 15]}}
-                  responsive={true}
-                />
-              }
-              width={600}
-              height={400}>
-              <VictoryAxis
-                style={{
-                  axis: {
-                    fill: 'transparent',
-                    stroke: '#90A4AE',
-                    strokeWidth: 1,
-                    strokeLinecap: 'round',
-                    strokeLinejoin: 'round',
-                  },
-                  tickLabels: {fill: '#455A64'},
-                }}
-                crossAxis
-                width={400}
-                height={400}
-                domain={[0, 10]}
-                standalone={false}
-                tickValues={['Q1', 'Q2', 'Q3', 'Q4', 'Q5', 'Q6', 'Q7', 'Q8']}
+              },
+            ]}
+            containerComponent={
+              <VictoryZoomContainer
+                zoomDomain={{x: [1, 3], y: [0, 15]}}
+                responsive={true}
               />
-              <VictoryAxis
-                style={{
-                  axis: {strokeWidth: 0},
-                  ticks: {},
-                  tickLabels: {fill: '#455A64'},
-                  axisLabel: {fill: '#455A64', padding: 30, fontSize: 18},
-                  grid: {
-                    fill: 'none',
-                    stroke: '#ECEFF1',
-                    strokeDasharray: [10, 5],
-                    strokeLinecap: 'round',
-                    strokeLinejoin: 'round',
-                    pointerEvents: 'painted',
-                  },
-                }}
-                label="STUDENT"
-                dependentAxis
-                width={400}
-                height={400}
-                domain={[10, 0]}
-                tickValues={[1, 5, 10, 15]}
-                standalone={false}
-              />
-              <VictoryBar
-                cornerRadius={6}
-                domain={{x: [0, 10], y: [0, 15]}}
-                barWidth={20}
-                style={{data: {fill: '#0AC46B'}}}
-                data={BarChartData1}
-              />
-              <VictoryBar
-                cornerRadius={6}
-                domain={{x: [0, 10], y: [0, 15]}}
-                alignment="start"
-                barWidth={20}
-                style={{data: {fill: '#FADE5D'}}}
-                data={BarChartData2}
-              />
-            </VictoryChart>
-          </Svg>
+            }
+            width={400}
+            height={400}>
+            <VictoryAxis
+              style={{
+                axis: {
+                  fill: 'transparent',
+                  stroke: '#90A4AE',
+                  strokeWidth: 1,
+                  strokeLinecap: 'round',
+                  strokeLinejoin: 'round',
+                },
+                tickLabels: {fill: '#455A64'},
+              }}
+              crossAxis
+              width={400}
+              height={400}
+              domain={[0, 10]}
+              standalone={false}
+              tickValues={['Q1', 'Q2', 'Q3', 'Q4', 'Q5', 'Q6', 'Q7', 'Q8']}
+            />
+            <VictoryAxis
+              style={{
+                axis: {strokeWidth: 0},
+                ticks: {},
+                tickLabels: {fill: '#455A64'},
+                axisLabel: {fill: '#455A64', padding: 30, fontSize: 18},
+                grid: {
+                  fill: 'none',
+                  stroke: '#ECEFF1',
+                  strokeDasharray: [10, 5],
+                  strokeLinecap: 'round',
+                  strokeLinejoin: 'round',
+                  pointerEvents: 'painted',
+                },
+              }}
+              label="STUDENT"
+              dependentAxis
+              width={400}
+              height={400}
+              domain={[10, 0]}
+              tickValues={[1, 5, 10, 15]}
+              standalone={false}
+            />
+            <VictoryBar
+              cornerRadius={6}
+              domain={{x: [0, 10], y: [0, 15]}}
+              barWidth={20}
+              style={{data: {fill: '#0AC46B'}}}
+              data={BarChartData1}
+            />
+            <VictoryBar
+              cornerRadius={6}
+              domain={{x: [0, 10], y: [0, 15]}}
+              alignment="start"
+              barWidth={20}
+              style={{data: {fill: '#FADE5D'}}}
+              data={BarChartData2}
+            />
+          </VictoryChart>
         </View>
       </SafeAreaView>
     );
