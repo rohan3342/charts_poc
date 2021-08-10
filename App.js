@@ -7,9 +7,19 @@ import {
   Platform,
   View,
   Text,
+  ScrollView,
 } from 'react-native';
 import Svg, {G} from 'react-native-svg';
-import {VictoryPie, VictoryLabel, VictoryTooltip} from 'victory-native';
+import {
+  VictoryPie,
+  VictoryLabel,
+  VictoryTooltip,
+  VictoryChart,
+  VictoryBar,
+  VictoryAxis,
+  VictoryTheme,
+  VictoryZoomContainer,
+} from 'victory-native';
 
 const CustomLabel = props => {
   const width = props?.textStyle?.width;
@@ -45,10 +55,30 @@ class App extends Component {
       {x: '4', y: 4, fill: 'lightgreen'},
       {x: '6', y: 6, fill: 'skyblue'},
     ];
+    const BarChartData1 = [
+      {x: 'Q1', y: 5},
+      {x: 'Q2', y: 9},
+      {x: 'Q3', y: 5},
+      {x: 'Q4', y: 4},
+      {x: 'Q5', y: 3},
+      {x: 'Q6', y: 8},
+      {x: 'Q7', y: 6},
+      {x: 'Q8', y: 4},
+    ];
+    const BarChartData2 = [
+      {x: 'Q1', y: 6},
+      {x: 'Q2', y: 11},
+      {x: 'Q3', y: 8},
+      {x: 'Q4', y: 6},
+      {x: 'Q5', y: 4},
+      {x: 'Q6', y: 8},
+      {x: 'Q7', y: 6},
+      {x: 'Q8', y: 4},
+    ];
     const colorScale = ['tomato', 'orange', 'gold', 'lightgreen', 'skyblue'];
     return (
       <SafeAreaView pointerEvents="none" style={styles.container}>
-        <View style={{backgroundColor: 'white'}}>
+        {/* <View style={{backgroundColor: 'white'}}>
           <Svg viewBox="0 0 400 400" width={400} height={400}>
             <VictoryPie
               standalone={false}
@@ -82,6 +112,84 @@ class App extends Component {
             />
             <VictoryLabel textComponent={<CenterLabel text={'30'} />} text="" />
           </Svg>
+        </View> */}
+        <View style={styles.BarChartView}>
+          <Svg viewBox="0 0 400 400" width={400} height={400}>
+            <VictoryChart
+              events={[
+                {
+                  target: 'data',
+                  eventHandlers: {
+                    onPressIn: () => alert,
+                  },
+                },
+              ]}
+              containerComponent={
+                <VictoryZoomContainer
+                  oomDomain={{x: [1, 5], y: [0, 15]}}
+                  responsive={true}
+                />
+              }
+              width={600}
+              height={400}>
+              <VictoryAxis
+                style={{
+                  axis: {
+                    fill: 'transparent',
+                    stroke: '#90A4AE',
+                    strokeWidth: 1,
+                    strokeLinecap: 'round',
+                    strokeLinejoin: 'round',
+                  },
+                  tickLabels: {fill: '#455A64'},
+                }}
+                crossAxis
+                width={400}
+                height={400}
+                domain={[0, 10]}
+                standalone={false}
+                tickValues={['Q1', 'Q2', 'Q3', 'Q4', 'Q5', 'Q6', 'Q7', 'Q8']}
+              />
+              <VictoryAxis
+                style={{
+                  axis: {strokeWidth: 0},
+                  ticks: {},
+                  tickLabels: {fill: '#455A64'},
+                  axisLabel: {fill: '#455A64', padding: 30, fontSize: 18},
+                  grid: {
+                    fill: 'none',
+                    stroke: '#ECEFF1',
+                    strokeDasharray: [10, 5],
+                    strokeLinecap: 'round',
+                    strokeLinejoin: 'round',
+                    pointerEvents: 'painted',
+                  },
+                }}
+                label="STUDENT"
+                dependentAxis
+                width={400}
+                height={400}
+                domain={[10, 0]}
+                tickValues={[1, 5, 10, 15]}
+                standalone={false}
+              />
+              <VictoryBar
+                cornerRadius={6}
+                domain={{x: [0, 10], y: [0, 15]}}
+                barWidth={20}
+                style={{data: {fill: '#0AC46B'}}}
+                data={BarChartData1}
+              />
+              <VictoryBar
+                cornerRadius={6}
+                domain={{x: [0, 10], y: [0, 15]}}
+                alignment="start"
+                barWidth={20}
+                style={{data: {fill: '#FADE5D'}}}
+                data={BarChartData2}
+              />
+            </VictoryChart>
+          </Svg>
         </View>
       </SafeAreaView>
     );
@@ -95,7 +203,6 @@ const CenterLabel = props => (
     <Text style={{color: 'grey'}}>Total Students</Text>
   </View>
 );
-export default App;
 
 const styles = StyleSheet.create({
   container: {
@@ -103,6 +210,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#ddd',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  BarChartView: {
+    width: 400,
+    height: 400,
+    backgroundColor: 'white',
   },
   customLabel: {
     backgroundColor: 'white',
@@ -117,3 +229,5 @@ const styles = StyleSheet.create({
     borderColor: 'red',
   },
 });
+
+export default App;
