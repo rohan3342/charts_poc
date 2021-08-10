@@ -78,7 +78,8 @@ class App extends Component {
     const colorScale = ['tomato', 'orange', 'gold', 'lightgreen', 'skyblue'];
     return (
       <SafeAreaView pointerEvents="none" style={styles.container}>
-        {/* <View style={{backgroundColor: 'white'}}>
+        {/* Donut Chart */}
+        <View style={{backgroundColor: 'white', marginBottom: 20}}>
           <Svg viewBox="0 0 400 400" width={400} height={400}>
             <VictoryPie
               standalone={false}
@@ -112,7 +113,8 @@ class App extends Component {
             />
             <VictoryLabel textComponent={<CenterLabel text={'30'} />} text="" />
           </Svg>
-        </View> */}
+        </View>
+        {/* Bar Chart */}
         <View style={styles.BarChartView}>
           <Svg viewBox="0 0 400 400" width={400} height={400}>
             <VictoryChart
