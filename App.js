@@ -1,23 +1,13 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  TouchableOpacity,
-  Platform,
-  View,
-  Text,
-  ScrollView,
-} from 'react-native';
+import {SafeAreaView, StyleSheet, View, Text} from 'react-native';
 import Svg, {G} from 'react-native-svg';
 import {
   VictoryPie,
   VictoryLabel,
-  VictoryTooltip,
   VictoryChart,
   VictoryBar,
   VictoryAxis,
-  VictoryTheme,
   VictoryZoomContainer,
 } from 'victory-native';
 
